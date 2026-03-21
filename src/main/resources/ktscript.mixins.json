@@ -5,18 +5,16 @@
   "client": [
     "AbstractContainerScreenMixin",
     "BundlerInfoMixin",
-    "ClientPacketListenerMixin",
     "ConnectionMixin",
     "GuiGraphicsMixin",
     "GuiMixin",
+    "KeyboardHandlerMixin",
+    "LevelChunkMixin",
+    "LivingEntityMixin",
     "MinecraftMixin",
-    "PacketProcessorMixin"
+    "MouseHandlerMixin"
   ],
   "injectors": {
     "defaultRequire": 1
-  },
-  "mixins": [
-    "LevelChunkMixin",
-    "LivingEntityMixin"
-  ]
+  }
 }

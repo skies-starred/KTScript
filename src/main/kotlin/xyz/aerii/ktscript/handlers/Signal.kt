@@ -78,11 +78,11 @@ object Signal {
             }
         }
 
-        on<PacketEvent.Process.Pre, ClientboundSetTitleTextPacket> {
+        on<PacketEvent.Receive, ClientboundSetTitleTextPacket> {
             if (MessageEvent.Title.Main(text).post()) it.cancel()
         }
 
-        on<PacketEvent.Process.Pre, ClientboundSetSubtitleTextPacket> {
+        on<PacketEvent.Receive, ClientboundSetSubtitleTextPacket> {
             if (MessageEvent.Title.Sub(text).post()) it.cancel()
         }
     }
