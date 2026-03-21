@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "A light-weight proof of concept .kts script loader for Minecraft.",
+  "authors": [
+    "Starred"
+  ],
+  "contact": {},
+  "license": "BSD 3-Clause",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      {
+        "value": "xyz.aerii.ktscript.KTScript",
+        "adapter": "kotlin"
+      }
+    ]
+  },
+  "mixins": [
+    "ktscript.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.18",
+    "fabric-api": "*",
+    "minecraft": "${minecraft}"
+  }
+}

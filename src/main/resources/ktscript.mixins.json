@@ -1,0 +1,22 @@
+{
+  "required": false,
+  "package": "xyz.aerii.ktscript.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "AbstractContainerScreenMixin",
+    "BundlerInfoMixin",
+    "ClientPacketListenerMixin",
+    "ConnectionMixin",
+    "GuiGraphicsMixin",
+    "GuiMixin",
+    "MinecraftMixin",
+    "PacketProcessorMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "LevelChunkMixin",
+    "LivingEntityMixin"
+  ]
+}
