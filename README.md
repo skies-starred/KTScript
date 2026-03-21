@@ -15,6 +15,8 @@ Report bugs to @skies.starred on discord.
 
 Scripts should use the KTScript event bus, instead of another event bus like Fabric API's event bus as they will not be cleaned up properly.
 
+If you want a specific event to be added to the custom event bus, please let me know!
+
 ### Reload
 
 KTScript supports using the command ``/ktscript reload`` to reload all the scripts in-game.
