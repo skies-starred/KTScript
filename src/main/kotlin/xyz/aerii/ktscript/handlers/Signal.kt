@@ -68,7 +68,8 @@ object Signal {
             TickEvent.Client.End.post()
         }
 
-        ClientReceiveMessageEvents.ALLOW_GAME.register { component, _ ->
+        ClientReceiveMessageEvents.ALLOW_GAME.register { component, bool ->
+            if (bool) return@register true
             !MessageEvent.Chat.Intercept(component).post()
         }
 
