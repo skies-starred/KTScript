@@ -9,7 +9,7 @@
   ],
   "contact": {},
   "license": "BSD 3-Clause",
-  "environment": "*",
+  "environment": "client",
   "entrypoints": {
     "client": [
       {
@@ -25,5 +25,10 @@
     "fabricloader": ">=0.18",
     "fabric-api": "*",
     "minecraft": "${minecraft}"
+  },
+  "custom": {
+    "modmenu": {
+      "update_checker": false
+    }
   }
 }
