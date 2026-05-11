@@ -5,7 +5,7 @@ package xyz.aerii.ktscript.events
 import net.minecraft.network.chat.Component
 import xyz.aerii.ktscript.events.core.CancellableEvent
 import xyz.aerii.ktscript.events.core.Event
-import xyz.aerii.ktscript.handlers.Typo.stripped
+import xyz.aerii.library.utils.stripped
 
 sealed class MessageEvent {
     sealed class Chat {

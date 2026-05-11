@@ -13,7 +13,7 @@ import net.minecraft.world.inventory.Slot
 import net.minecraft.world.item.ItemStack
 import xyz.aerii.ktscript.events.core.CancellableEvent
 import xyz.aerii.ktscript.events.core.Event
-import xyz.aerii.ktscript.handlers.Typo.stripped
+import xyz.aerii.library.utils.stripped
 
 sealed class GuiEvent {
     sealed class Render {
@@ -21,16 +21,28 @@ sealed class GuiEvent {
             val graphics: GuiGraphics
         ) : Event()
 
+        data class Main(
+            val graphics: GuiGraphics
+        ) : Event()
+
         data class Post(
             val graphics: GuiGraphics
         ) : Event()
-    }
 
-    sealed class Container {
-        sealed class Render {
+        sealed class Container {
             data class Pre(
                 val graphics: GuiGraphics
             ) : CancellableEvent()
+        }
+
+        sealed class Screen {
+            data class Pre(
+                val graphics: GuiGraphics
+            ) : CancellableEvent()
+
+            data class Post(
+                val graphics: GuiGraphics
+            ) : Event()
         }
     }
 
@@ -73,6 +85,22 @@ sealed class GuiEvent {
                 val graphics: GuiGraphics,
                 val slot: Slot
             ) : Event()
+
+            sealed class Hotbar {
+                data class Pre(
+                    val graphics: GuiGraphics,
+                    val item: ItemStack,
+                    val x: Int,
+                    val y: Int
+                ) : CancellableEvent()
+
+                data class Post(
+                    val graphics: GuiGraphics,
+                    val item: ItemStack,
+                    val x: Int,
+                    val y: Int
+                ) : Event()
+            }
         }
 
         data class Click(

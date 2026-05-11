@@ -7,7 +7,7 @@ import net.fabricmc.loader.api.FabricLoader
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import xyz.aerii.ktscript.events.core.Node
-import xyz.aerii.ktscript.handlers.Signal
+import xyz.aerii.ktscript.events.impl.EventDispatcher
 import java.io.File
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
@@ -24,7 +24,7 @@ object KTScript : ClientModInitializer {
 
     override fun onInitializeClient() {
         LOGGER.info("KTScript initialised.")
-        Signal.init()
+        EventDispatcher.init()
         load()
 
         ClientCommandRegistrationCallback.EVENT.register { d, _ ->

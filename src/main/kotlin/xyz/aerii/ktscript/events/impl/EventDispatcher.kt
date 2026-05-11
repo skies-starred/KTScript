@@ -1,9 +1,10 @@
-package xyz.aerii.ktscript.handlers
+package xyz.aerii.ktscript.events.impl
 
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientEntityEvents
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents
+//~ if >= 26.1 'world.WorldRenderEvents' -> 'level.LevelRenderEvents'
 import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.ScreenKeyboardEvents
@@ -18,9 +19,9 @@ import xyz.aerii.ktscript.events.PacketEvent
 import xyz.aerii.ktscript.events.TickEvent
 import xyz.aerii.ktscript.events.WorldRenderEvent
 import xyz.aerii.ktscript.events.core.on
-import xyz.aerii.ktscript.utils.mainThread
+import xyz.aerii.library.api.mainThread
 
-object Signal {
+object EventDispatcher {
     fun init() {
         ScreenEvents.BEFORE_INIT.register { _, screen, _, _ ->
             ScreenMouseEvents.allowMouseClick(screen).register { _, event ->
@@ -44,6 +45,7 @@ object Signal {
             }
         }
 
+        //~ if >= 26.1 'WorldRenderEvents' -> 'LevelRenderEvents'
         WorldRenderEvents.END_MAIN.register { context ->
             WorldRenderEvent.Last(context).post()
         }

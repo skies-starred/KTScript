@@ -21,10 +21,13 @@ If you want a specific event to be added to the custom event bus, please let me 
 
 KTScript supports using the command ``/ktscript reload`` to reload all the scripts in-game.
 
+### Utility files
+
+The mod includes my [library](https://github.com/skies-starred/library) that you can use in the code. There is no documentation currently so you'll have to look through the library's code for anything that you need.
+
 ### Script example
 
 ```kotlin
-import net.fabricmc.fabric.api.client.rendering.v1.world.WorldRenderEvents
 import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket
 import xyz.aerii.ktscript.events.core.on
 import xyz.aerii.ktscript.events.*

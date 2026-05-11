@@ -13,7 +13,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import xyz.aerii.ktscript.events.GuiEvent;
 
 @Mixin(value = GuiGraphics.class, priority = Integer.MAX_VALUE)
+//~ !graphics
 public class GuiGraphicsMixin {
+//~ graphics
     @Inject(method = "renderItem(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/world/level/Level;Lnet/minecraft/world/item/ItemStack;III)V", at = @At("HEAD"))
     private void ktscript$renderItem(LivingEntity entity, Level level, ItemStack stack, int x, int y, int seed, CallbackInfo ci) {
         new GuiEvent.Items.Render.Pre(self(), stack, x, y).post();

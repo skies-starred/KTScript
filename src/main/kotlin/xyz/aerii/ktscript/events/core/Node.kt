@@ -1,7 +1,7 @@
 package xyz.aerii.ktscript.events.core
 
 import xyz.aerii.ktscript.KTScript
-import xyz.aerii.ktscript.handlers.React
+import xyz.aerii.library.handlers.Observable
 import java.util.concurrent.atomic.AtomicBoolean
 
 class Node<T : Event>(
@@ -11,7 +11,7 @@ class Node<T : Event>(
 ) {
     private val state = AtomicBoolean(false)
     internal var overridden = false
-    internal val conditions = mutableListOf<React<Boolean>>()
+    internal val conditions = mutableListOf<Observable<Boolean>>()
 
     init {
         KTScript.nodes.add(this)

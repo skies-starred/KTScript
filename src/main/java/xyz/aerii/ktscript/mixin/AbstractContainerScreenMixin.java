@@ -24,6 +24,7 @@ public class AbstractContainerScreenMixin {
     @Nullable
     private Slot ktscript$previousHoveredSlot = null;
 
+    //~ if >= 26.1 'renderSlot' -> 'extractSlot'
     @Inject(method = "renderSlot", at = @At("HEAD"), cancellable = true)
     //? >= 1.21.11 {
     /*private void ktscript$onRenderSlot$pre(GuiGraphics guiGraphics, Slot slot, int mouseX, int mouseY, CallbackInfo ci) {
@@ -33,6 +34,7 @@ public class AbstractContainerScreenMixin {
         if (new GuiEvent.Slots.Render.Pre(guiGraphics, slot).post()) ci.cancel();
     }
 
+    //~ if >= 26.1 'renderSlot' -> 'extractSlot'
     @Inject(method = "renderSlot", at = @At("RETURN"))
     //? >= 1.21.11 {
     /*private void ktscript$onRenderSlot$post(GuiGraphics guiGraphics, Slot slot, int mouseX, int mouseY, CallbackInfo ci) {
@@ -47,20 +49,14 @@ public class AbstractContainerScreenMixin {
         if (new GuiEvent.Slots.Click(slot, slotId, mouseButton, type).post()) ci.cancel();
     }
 
+    //~ if >= 26.1 'renderContents' -> 'extractContents'
     @Inject(method = "renderContents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;getHoveredSlot(DD)Lnet/minecraft/world/inventory/Slot;"))
     private void ktscript$renderContents$0(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
         ktscript$previousHoveredSlot = hoveredSlot;
     }
 
-    @Inject(
-            method = "renderContents",
-            at = @At(
-                    value = "FIELD",
-                    target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;hoveredSlot:Lnet/minecraft/world/inventory/Slot;",
-                    opcode = Opcodes.PUTFIELD,
-                    shift = At.Shift.AFTER
-            )
-    )
+    //~ if >= 26.1 'renderContents' -> 'extractContents'
+    @Inject(method = "renderContents", at = @At(value = "FIELD", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;hoveredSlot:Lnet/minecraft/world/inventory/Slot;", opcode = Opcodes.PUTFIELD, shift = At.Shift.AFTER))
     private void ktscript$renderContents$1(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick, CallbackInfo ci) {
         if (hoveredSlot == ktscript$previousHoveredSlot) return;
 
