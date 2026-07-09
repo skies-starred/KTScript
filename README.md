@@ -1,8 +1,6 @@
 # KTScript
 
-KTScript is a barebones `.kts` script loader for Minecraft. The mod is a proof of concept, but should be stable enough to actually use.
-
-This is my very first attempt at a project like this, so expect bugs to exist! Report bugs to @skies.starred on discord.
+KTScript is a `.kts` script loader for Minecraft.
 
 ### How it works
 
