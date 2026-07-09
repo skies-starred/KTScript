@@ -9,6 +9,7 @@
   ],
   "contact": {},
   "license": "BSD 3-Clause",
+  "icon": "assets/ktscript/icon.png",
   "environment": "client",
   "entrypoints": {
     "client": [
