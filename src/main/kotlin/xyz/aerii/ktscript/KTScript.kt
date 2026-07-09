@@ -1,18 +1,17 @@
 package xyz.aerii.ktscript
 
 import net.fabricmc.api.ClientModInitializer
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager.literal
-import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.loader.api.FabricLoader
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import xyz.aerii.ktscript.events.core.Node
 import xyz.aerii.ktscript.events.impl.EventDispatcher
+import xyz.aerii.library.kommand.ICommand
 import java.io.File
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.concurrent.thread
 
-object KTScript : ClientModInitializer {
+object KTScript : ClientModInitializer, ICommand {
     @JvmField
     val dir = File(FabricLoader.getInstance().configDir.toFile(), "KTScript/scripts")
 
@@ -27,15 +26,9 @@ object KTScript : ClientModInitializer {
         EventDispatcher.init()
         load()
 
-        ClientCommandRegistrationCallback.EVENT.register { d, _ ->
-            literal("ktscript").then(
-                literal("reload")
-                    .executes {
-                        load()
-                        1
-                    }
-            ).apply {
-                d.register(this)
+        command("ktscript") {
+            "reload" {
+                load()
             }
         }
     }
@@ -59,7 +52,7 @@ object KTScript : ClientModInitializer {
             val i = AtomicInteger()
             val threads = ss.map { thread(isDaemon = true) { if (KTScriptHost.eval(it)) i.incrementAndGet() } }
 
-            threads.forEach { it.join() }
+            for (t in threads) t.join()
             LOGGER.info("KTScript loaded ${i.get()}/$t scripts.")
         }
     }
