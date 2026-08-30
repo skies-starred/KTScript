@@ -12,9 +12,15 @@
   "icon": "assets/ktscript/icon.png",
   "environment": "client",
   "entrypoints": {
+    "preLaunch": [
+      {
+        "value": "foo.starred.ktscript.KTScriptPreLaunchEntrypoint",
+        "adapter": "kotlin"
+      }
+    ],
     "client": [
       {
-        "value": "xyz.aerii.ktscript.KTScript",
+        "value": "foo.starred.ktscript.KTScript",
         "adapter": "kotlin"
       }
     ]
@@ -23,7 +29,8 @@
     "ktscript.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.18",
+    "fabricloader": ">=0.19",
+    "fabric-language-kotlin": "*",
     "fabric-api": "*",
     "minecraft": "${minecraft}"
   },

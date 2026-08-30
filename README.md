@@ -27,8 +27,8 @@ The mod includes my [library](https://github.com/skies-starred/library) that you
 
 ```kotlin
 import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket
-import xyz.aerii.ktscript.events.core.on
-import xyz.aerii.ktscript.events.*
+import foo.starred.ktscript.events.core.on
+import foo.starred.ktscript.events.*
 
 object Test {
     init {

@@ -1,6 +1,6 @@
 {
   "required": false,
-  "package": "xyz.aerii.ktscript.mixin",
+  "package": "foo.starred.ktscript.mixin",
   "compatibilityLevel": "JAVA_21",
   "client": [
     "AbstractContainerScreenMixin",
@@ -12,7 +12,8 @@
     "LevelChunkMixin",
     "LivingEntityMixin",
     "MinecraftMixin",
-    "MouseHandlerMixin"
+    "MouseHandlerMixin",
+    "ScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
