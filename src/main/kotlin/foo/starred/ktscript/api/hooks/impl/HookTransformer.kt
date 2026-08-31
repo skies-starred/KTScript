@@ -39,7 +39,7 @@ class HookTransformer : ClassFileTransformer {
                 if (static) push(null as String?) else loadThis()
                 loadArgArray()
 
-                invokeStatic(Type.getType(HookDispatcher::class.java), Method.getMethod("foo.starred.ktscript.api.hooks.context.HookContext enter(String, Object, Object[])"))
+                invokeStatic(Type.getType(HookDispatcher::class.java), Method("enter", "(Ljava/lang/String;Ljava/lang/Object;[Ljava/lang/Object;)Lfoo/starred/ktscript/api/hooks/context/HookContext;"))
 
                 val label = Label()
                 dup()
@@ -93,7 +93,7 @@ class HookTransformer : ClassFileTransformer {
                 loadArgArray()
                 push(null as String?)
 
-                invokeStatic(Type.getType(HookDispatcher::class.java), Method.getMethod("Object exit(String, Object, Object[], Object)"))
+                invokeStatic(Type.getType(HookDispatcher::class.java), Method("exit", "(Ljava/lang/String;Ljava/lang/Object;[Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;"))
                 pop()
             }
         }

@@ -7,6 +7,9 @@ import foo.starred.ktscript.api.lifecycle.managed.impl.KTScriptLifeCycle
 import foo.starred.ktscript.api.lifecycle.singletons.impl.KTScriptSingletons
 import foo.starred.ktscript.events.core.Node
 import foo.starred.ktscript.events.impl.EventDispatcher
+import foo.starred.ktscript.modifiers.LibraryModifier
+import foo.starred.ktscript.modifiers.ModModifier
+import foo.starred.ktscript.modifiers.PackageModifier
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback
 import net.fabricmc.fabric.api.client.command.v2.FabricClientCommandSource
@@ -55,23 +58,33 @@ object KTScript : ClientModInitializer, IKommand<FabricClientCommandSource> {
     }
 
     private fun register() {
-        val s = dir.walkTopDown().filter { it.isFile && it.extension == "kts" && !it.name.startsWith(".") }.toList()
-        if (s.isEmpty()) return LOGGER.info("KTScript found no scripts to load.")
+        val folders = dir.walkTopDown().filter { it.isDirectory && !it.name.startsWith(".") }.toList()
+        if (folders.isEmpty()) return LOGGER.info("KTScript found no script modules or libraries")
 
-        KTScriptSingletons.remove(s.map { it.name }.toSet())
+        val libraries = folders.mapNotNull { it.resolve("library.kts").takeIf { f -> f.isFile } }
+        val mods = folders.mapNotNull { it.resolve("main.kts").takeIf { f -> f.isFile } }
+        if (libraries.isEmpty() && mods.isEmpty()) return LOGGER.info("KTScript found no modules with main.kts or library.kts")
 
-        val ss = s.sortedBy { it.name }
-        val t = ss.size
+        val all = (libraries + mods).map { PackageModifier.module(it) }.toSet()
+        KTScriptSingletons.remove(all)
+
+        val sorted = mods.sortedBy { it.name }
+        val size = sorted.size
 
         thread(name = "KTScript", isDaemon = true) {
-            val jars = s.map { "${it.relativeToOrNull(dir)?.path?.replace(File.separatorChar, '_') ?: it.name}-${it.lastModified()}.jar" }.toSet()
-            KTScriptHost.cache.listFiles { f -> f.extension == "jar" && f.name !in jars }?.forEach { it.delete() }
+            val jars = (libraries + mods).map { PackageModifier.key(it).let { (key, time) -> "$key-$time.jar" } }.toSet()
+            KTScriptHost.cache.walkTopDown().filter { f -> f.isFile && f.extension == "jar" && f.name !in jars }.forEach { it.delete() }
+            LibraryModifier.libraries = emptyArray()
+
+            for (library in libraries) LibraryModifier.compile(library)
+            LibraryModifier.reload(libraries)
+            for (library in libraries) LibraryModifier.load(library)
 
             val i = AtomicInteger()
-            val threads = ss.map { thread(isDaemon = true) { if (KTScriptHost.eval(it)) i.incrementAndGet() } }
+            val threads = sorted.map { thread(isDaemon = true) { if (ModModifier.eval(it)) i.incrementAndGet() } }
 
             for (t in threads) t.join()
-            LOGGER.info("KTScript loaded ${i.get()}/$t scripts.")
+            LOGGER.info("KTScript loaded ${i.get()}/$size mods (${libraries.size} libraries)")
         }
     }
 

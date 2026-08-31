@@ -26,9 +26,19 @@ The mod includes my [library](https://github.com/skies-starred/library) that you
 ### Script example
 
 ```kotlin
+@file:Mod(
+    name = "ExampleMod",
+    description = "Example mod",
+    version = "1.0.0",
+    author = "Starred"
+)
+
+// automatically set to ktscript.scripts.folderName if not set
+package com.example.ktscript
+
+import net.minecraft.client.Minecraft
+import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket
-import foo.starred.ktscript.events.core.on
-import foo.starred.ktscript.events.*
 
 object Test {
     init {
@@ -38,7 +48,18 @@ object Test {
     }
 }
 
-on<TickEvent.Server> {
-    println("Posted every server tick!")
+once("init") {
+    println("Initialised once!")
+}
+
+val sessionStart = persist("sessionStart") { System.currentTimeMillis() }
+
+// Mixins!
+hook<Minecraft>("setScreen") { (screen: Screen?) ->
+    println("Screen changed to: $screen")
+}
+
+on<TickEvent.Client.Start> {
+    // Runs every client tick
 }
 ```

@@ -2,6 +2,7 @@ package foo.starred.ktscript.api.lifecycle.singletons.extensions
 
 import foo.starred.ktscript.KTScriptHost
 import foo.starred.ktscript.api.lifecycle.singletons.impl.KTScriptSingletons
+import foo.starred.ktscript.modifiers.PackageModifier
 
 inline fun <reified T : Any> persist(key: String = T::class.java.name, noinline create: () -> T): T {
     return KTScriptSingletons.getOrCreate(qualify(key), create)
@@ -19,6 +20,6 @@ fun once(key: String, block: () -> Unit) {
 }
 
 fun qualify(key: String): String {
-    val name = KTScriptHost.current.get()?.name ?: return key
+    val name = KTScriptHost.current.get()?.let { PackageModifier.module(it) } ?: return key
     return if (key.startsWith("$name:")) key else "$name:$key"
 }
