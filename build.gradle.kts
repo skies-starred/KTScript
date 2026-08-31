@@ -32,6 +32,7 @@ dependencies {
 
     shadow("kommand".global)
     shadow("snowbird".versioned)
+    shadow("bytebuddy-agent".global)
     for (dep in "kotlin-extra".bundle.get()) shadow(dep)
 }
 

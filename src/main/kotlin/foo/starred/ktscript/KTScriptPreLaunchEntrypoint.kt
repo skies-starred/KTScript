@@ -11,20 +11,17 @@ import java.nio.file.Files
 import java.nio.file.Path
 
 object KTScriptPreLaunchEntrypoint : PreLaunchEntrypoint {
-    private val list = listOf("kotlin-compiler-embeddable", "kotlin-scripting-compiler-embeddable", "kotlin-scripting-compiler-impl-embeddable", "kotlin-daemon-embeddable")
     private val directory: Path = FabricLoader.getInstance().configDir.resolve("KTScript/bundled")
 
     override fun onPreLaunch() {
         LOGGER.info("Loading Kotlin Scripting compiler dependencies...")
         Files.createDirectories(directory)
 
-        for (id in list) {
-            FabricLauncherBase.getLauncher().addToClassPath(get(id))
-        }
-
+        FabricLauncherBase.getLauncher().addToClassPath(get("kotlin-compiler-embeddable"))
         LOGGER.info("Kotlin compiler dependencies added to classpath.")
     }
 
+    @Suppress("SameParameterValue")
     private fun get(id: String): Path {
         val name = "$id-2.4.10.jar"
         val path = directory.resolve(name)

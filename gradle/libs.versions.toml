@@ -14,7 +14,10 @@ fabric-api-26-2 = "0.158.0+26.2"
 snowbird-26-1 = "016+26.1"
 snowbird-26-2 = "016+26.2"
 
+bytebuddy = "1.15.11"
+
 [libraries]
+bytebuddy-agent = { module = "net.bytebuddy:byte-buddy-agent", version.ref = "bytebuddy" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
 fabric-language-kotlin = { module = "net.fabricmc:fabric-language-kotlin", version.ref = "fabric-language-kotlin" }
 
@@ -31,13 +34,19 @@ kscript-common = { module = "org.jetbrains.kotlin:kotlin-scripting-common", vers
 kscript-host = { module = "org.jetbrains.kotlin:kotlin-scripting-jvm-host", version.ref = "kotlin" }
 kscript-jvm = { module = "org.jetbrains.kotlin:kotlin-scripting-jvm", version.ref = "kotlin" }
 kscript-runtime = { module = "org.jetbrains.kotlin:kotlin-script-runtime", version.ref = "kotlin" }
+kscript-compiler-embeddable = { module = "org.jetbrains.kotlin:kotlin-scripting-compiler-embeddable", version.ref = "kotlin" }
+kscript-compiler-impl-embeddable = { module = "org.jetbrains.kotlin:kotlin-scripting-compiler-impl-embeddable", version.ref = "kotlin" }
+kdaemon-embeddable = { module = "org.jetbrains.kotlin:kotlin-daemon-embeddable", version.ref = "kotlin" }
 
 [bundles]
 kotlin-extra = [
     "kscript-common",
     "kscript-host",
     "kscript-jvm",
-    "kscript-runtime"
+    "kscript-runtime",
+    "kscript-compiler-embeddable",
+    "kscript-compiler-impl-embeddable",
+    "kdaemon-embeddable"
 ]
 
 [plugins]
