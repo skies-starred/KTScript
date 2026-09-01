@@ -29,7 +29,7 @@ object PackageModifier {
 
         for (line in text.lineSequence()) {
             val line1 = line.trim()
-            if (line1.isEmpty() || line1.startsWith("//") || line1.startsWith("/*")) {
+            if (line1.isEmpty() || line1.startsWith("//") || line1.startsWith("/*") || line1.startsWith("*")) {
                 i1 += line.length + 1
                 continue
             }
@@ -41,7 +41,7 @@ object PackageModifier {
             i0 += line.count { it == '(' } - line.count { it == ')' }
             if (i0 <= 0 && !line1.endsWith(",")) {
                 i2 = i1 + line.length
-                break
+                i0 = 0
             }
 
             i1 += line.length + 1
