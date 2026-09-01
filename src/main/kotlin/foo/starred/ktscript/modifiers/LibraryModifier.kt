@@ -2,6 +2,7 @@ package foo.starred.ktscript.modifiers
 
 import foo.starred.ktscript.KTScript
 import foo.starred.ktscript.KTScriptHost
+import foo.starred.ktscript.annotations.Dependencies
 import foo.starred.ktscript.modifiers.PackageModifier.source
 import java.io.File
 import java.net.URLClassLoader
@@ -34,6 +35,9 @@ object LibraryModifier {
                 is ResultWithDiagnostics.Failure -> return KTScriptHost.error("class load", file, result.reports)
                 is ResultWithDiagnostics.Success -> result.value
             }
+
+            val dependencies = klass.java.getAnnotation(Dependencies::class.java)
+            if (dependencies != null && !CompilationModifier.validate(file, dependencies.mods, dependencies.minecraft)) return false
 
             val eval = when (val result = KTScriptHost.host.runInCoroutineContext { KTScriptHost.host.evaluator(script, config) }) {
                 is ResultWithDiagnostics.Failure -> return KTScriptHost.error("evaluation", file, result.reports)

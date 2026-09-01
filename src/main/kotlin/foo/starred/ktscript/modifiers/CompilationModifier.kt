@@ -4,6 +4,10 @@ import foo.starred.ktscript.KTScript
 import foo.starred.ktscript.KTScriptHost
 import foo.starred.ktscript.modifiers.PackageModifier.modify
 import foo.starred.ktscript.modifiers.PackageModifier.source
+import net.fabricmc.loader.api.FabricLoader
+import net.fabricmc.loader.api.Version
+import net.fabricmc.loader.api.metadata.version.VersionPredicate
+import net.minecraft.SharedConstants
 import java.io.File
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.jvm.dependenciesFromCurrentContext
@@ -14,6 +18,7 @@ object CompilationModifier {
     private val defaults = listOf(
         "foo.starred.ktscript.annotations.Mod",
         "foo.starred.ktscript.annotations.Lib",
+        "foo.starred.ktscript.annotations.Dependencies",
         "foo.starred.ktscript.events.*",
         "foo.starred.ktscript.events.core.*",
         "foo.starred.ktscript.api.lifecycle.managed.extensions.*",
@@ -50,5 +55,23 @@ object CompilationModifier {
         jvm {
             dependenciesFromCurrentContext(wholeClasspath = true)
         }
+    }
+
+    fun validate(file: File, mods: Array<String>, minecraft: Array<String>): Boolean {
+        if (minecraft.isNotEmpty()) {
+            val version = Version.parse(SharedConstants.getCurrentVersion().name())
+            if (!minecraft.any { VersionPredicate.parse(it).test(version) }) {
+                KTScript.LOGGER.warn("Skipping '${file.name}': requires Minecraft ${minecraft.joinToString(" or ")} (current: ${version.friendlyString})")
+                return false
+            }
+        }
+
+        val missing = mods.filterNot { FabricLoader.getInstance().isModLoaded(it) }
+        if (missing.isNotEmpty()) {
+            KTScript.LOGGER.warn("Skipping '${file.name}': missing mod dependencies: ${missing.joinToString(", ")}")
+            return false
+        }
+
+        return true
     }
 }

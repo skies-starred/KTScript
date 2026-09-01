@@ -33,6 +33,11 @@ The mod includes my [library](https://github.com/skies-starred/library) that you
     author = "Starred"
 )
 
+@file:Dependencies(
+    mods = [], // array of mod ids
+    minecraft = ["26.1.*"] // array of minecraft versions
+)
+
 // automatically set to ktscript.scripts.folderName if not set
 package com.example.ktscript
 

@@ -2,6 +2,7 @@ package foo.starred.ktscript.modifiers
 
 import foo.starred.ktscript.KTScript
 import foo.starred.ktscript.KTScriptHost
+import foo.starred.ktscript.annotations.Dependencies
 import foo.starred.ktscript.annotations.Mod
 import foo.starred.ktscript.modifiers.PackageModifier.key
 import foo.starred.ktscript.modifiers.PackageModifier.source
@@ -40,6 +41,9 @@ object ModModifier {
                 is ResultWithDiagnostics.Failure -> return KTScriptHost.error("class load", file, result.reports)
                 is ResultWithDiagnostics.Success -> result.value
             }
+
+            val dependencies = klass.java.getAnnotation(Dependencies::class.java)
+            if (dependencies != null && !CompilationModifier.validate(file, dependencies.mods, dependencies.minecraft)) return false
 
             if (klass.java.getAnnotation(Mod::class.java)?.autoInit != false) {
                 autoInit(file, klass.java)
